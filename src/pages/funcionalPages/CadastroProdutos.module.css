@@ -1,0 +1,97 @@
+.descricao {
+    margin-bottom: 28px;
+}
+.formProduto {
+    max-width: 1040px;
+    padding: 4px clamp(20px, 3vw, 32px) 28px;
+}
+.secaoCadastro {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+}
+.secaoCadastro:first-child {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+.secaoCadastro:first-child .campo:last-child {
+    grid-column: 1 / -1;
+}
+.secao3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.campo {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-top: 24px;
+    gap: 8px;
+}
+.campo label,
+.campo > span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cor-texto);
+}
+.campo > p {
+    color: var(--cor-texto-secundario);
+    font-size: 0.75rem;
+    padding-top: 8px;
+}
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #d8d0c9;
+    border-radius: 6px;
+    background: white;
+}
+.campo input[readonly] {
+    background: var(--cor-superficie-suave);
+    color: var(--cor-texto-secundario);
+}
+.campo textarea {
+    min-height: 88px;
+    resize: none;
+}
+.formProduto button {
+    min-height: 44px;
+    margin-top: 28px;
+    padding: 10px 20px;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 6px;
+    background: var(--cor-primaria);
+    color: white;
+    justify-self: start;
+    font-weight: 600;
+}
+.formProduto button:hover {
+    background: var(--cor-primaria-hover);
+}
+.formProduto button[type="button"] {
+    background: white;
+    color: var(--cor-texto);
+    border-color: var(--cor-borda);
+}
+@media (max-width: 650px) {
+    .secaoCadastro,
+    .secaoCadastro:first-child,
+    .secao3 {
+        grid-template-columns: 1fr;
+    }
+    .formProduto {
+        padding: 0 18px 24px;
+    }
+    .campo {
+        margin-top: 20px;
+    }
+    .formProduto button {
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+.campo > p {
+    font-weight: 500;
+}

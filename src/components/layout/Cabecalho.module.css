@@ -1,0 +1,89 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: 0;
+    padding: 16px var(--espaco-pagina);
+    border-bottom: 1px solid var(--cor-borda);
+    background: #fff2e4;
+    border-top: 3px solid var(--cor-primaria);
+}
+.eyebrow {
+    color: var(--cor-texto-secundario);
+    font-size: 0.7rem;
+}
+.container strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.perfil {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    min-width: 0;
+    max-width: 45%;
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
+}
+.icone {
+    font-size: 24px;
+    color: var(--cor-primaria);
+}
+@media (max-width: 600px) {
+    .container {
+        padding: 14px 16px;
+        gap: 12px;
+    }
+    .container strong {
+        font-size: 0.8rem;
+    }
+    .perfil {
+        font-size: 0.72rem;
+        gap: 7px;
+    }
+}
+
+.inicio {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+.botaoMenu {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--cor-borda-destaque);
+    border-radius: 6px;
+    background: var(--cor-superficie);
+    color: var(--cor-primaria);
+}
+.botaoMenu svg {
+    width: 22px;
+    height: 22px;
+}
+.botaoMenu:hover {
+    background: #ffe5cb;
+}
+@media (max-width: 1000px) {
+    .botaoMenu {
+        display: inline-flex;
+    }
+}
+@media (max-width: 600px) {
+    .inicio {
+        gap: 10px;
+    }
+    .container strong {
+        font-size: 0.75rem;
+    }
+    .perfil {
+        max-width: 38%;
+    }
+}

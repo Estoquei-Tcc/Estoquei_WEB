@@ -1,0 +1,135 @@
+.container {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 101;
+    width: 280px;
+    height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 24px 16px;
+    transition: width 0.18s ease;
+    background: #ce5a0d;
+    border-right: 1px solid #bd4b08;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0;
+    text-decoration: none;
+    color: #fff;
+}
+.logo img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+.logo h2 {
+    font: 600 1.6rem var(--fonte-logo);
+    letter-spacing: -0.04em;
+}
+.container nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.link {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 12px;
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    background: transparent;
+    text-align: left;
+    line-height: 1.5;
+}
+.link svg {
+    width: 17px;
+    height: 17px;
+}
+.link:hover {
+    background: rgb(255 255 255 / 12%);
+    color: #fff;
+}
+.link:global(.active) {
+    color: #a94308;
+    background: #fff8f1;
+    border-color: #fff8f1;
+}
+.sair {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgb(255 255 255 / 24%);
+    border-radius: 0;
+}
+.icone {
+    font-size: 18px;
+}
+
+.topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 8px 28px;
+}
+.fechar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgb(255 255 255 / 35%);
+    border-radius: 6px;
+    color: white;
+    background: transparent;
+}
+.fechar svg {
+    width: 20px;
+    height: 20px;
+}
+.fechar:hover {
+    background: rgb(255 255 255 / 15%);
+}
+@keyframes abrirMenu {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* No computador, recolhido mostra apenas os ícones. */
+.compacto {
+    width: 76px;
+    padding-inline: 12px;
+}
+.compacto .topo {
+    flex-direction: column;
+    padding-inline: 0;
+    gap: 16px;
+}
+.compacto .logo h2,
+.compacto .link span {
+    display: none;
+}
+.compacto .link {
+    justify-content: center;
+    padding-inline: 0;
+}
+@media (max-width: 1000px) {
+    .container {
+        width: min(290px, 88vw);
+        animation: abrirMenu 0.18s ease-out;
+    }
+}

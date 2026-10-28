@@ -1,0 +1,72 @@
+.gridContainer {
+    --cor-fundo: #fdfbf9;
+    background: var(--cor-fundo);
+    display: grid;
+    min-height: 100dvh;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    transition: margin-left 0.18s ease;
+}
+.gridContainer > main :global(.pagina-consulta) {
+    min-width: 0;
+}
+.menuExpandido {
+    margin-left: 280px;
+}
+.menuRecolhido {
+    margin-left: 76px;
+}
+.fundoMenu {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    border: 0;
+    padding: 0;
+    background: rgb(36 24 14 / 45%);
+    cursor: pointer;
+}
+@media (max-width: 1000px) {
+    .menuExpandido,
+    .menuRecolhido {
+        margin-left: 0;
+    }
+}
+
+/* Acabamento restrito ao conteudo das paginas internas. */
+.gridContainer > main :global(.pagina-consulta) :global(.superficie) {
+    box-shadow: 0 3px 10px rgb(65 43 27 / 6%);
+}
+.gridContainer > main :global(.pagina-consulta) :global(.botao) {
+    box-shadow: 0 2px 3px rgb(127 56 12 / 18%), inset 0 1px 0 rgb(255 255 255 / 14%);
+}
+.gridContainer > main :global(.pagina-consulta) :global(.botao-leve) {
+    border-color: #e3d3c6;
+    box-shadow: 0 1px 3px rgb(65 43 27 / 7%);
+}
+.gridContainer > main :global(.pagina-consulta) :where(input, select, textarea) {
+    box-shadow: inset 0 1px 2px rgb(65 43 27 / 4%);
+}
+.gridContainer > main :global(.pagina-consulta) :where(input, select, textarea):focus-visible {
+    outline: 2px solid #d9864d;
+    outline-offset: 2px;
+}
+.gridContainer > main :global(.pagina-consulta) :global(.tabela-dados) th {
+    background: #faf1e9;
+}
+@media (hover: hover) {
+    .gridContainer > main :global(.pagina-consulta) :global(.botao):hover:not(:disabled) {
+        box-shadow: 0 3px 7px rgb(127 56 12 / 22%);
+    }
+}
+.gridContainer > main :global(.pagina-consulta) :global(.botao):active:not(:disabled),
+.gridContainer > main :global(.pagina-consulta) :global(.botao-leve):active:not(:disabled) {
+    box-shadow: inset 0 1px 3px rgb(65 43 27 / 16%);
+}
+
+/* Textos de orientacao e dados com mais peso, sem alterar a Home. */
+.gridContainer > main :global(.pagina-app) :where(label, th, [role="alert"], [role="status"]) {
+    font-weight: 500;
+}
+.gridContainer > main :global(.subtitulo-pagina) {
+    font-weight: 500;
+}

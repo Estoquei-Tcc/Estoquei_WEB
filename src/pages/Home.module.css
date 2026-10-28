@@ -1,0 +1,427 @@
+.container {
+    --cor-primaria: #e86f00;
+    --cor-primaria-hover: #b85400;
+    --cor-fundo: #f8f7f4;
+    --cor-texto: #33251b;
+    --cor-texto-secundario: #80634d;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+.navbar {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 5vh 5%;
+    pointer-events: none;
+}
+.navbar button {
+    padding: 5px 30px;
+    min-height: 38px;
+    border: 1px solid;
+    border-radius: 100px;
+    background: transparent;
+    font-weight: 400;
+    pointer-events: auto;
+}
+.navbar button:hover {
+    color: var(--cor-fundo);
+    background: var(--cor-texto);
+}
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    pointer-events: auto;
+}
+.logo img {
+    width: 50px;
+}
+.logo h2 {
+    font-family: var(--fonte-logo);
+    font-size: var(--fonte-titulo);
+}
+.conteudo {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 0 40px;
+    background: linear-gradient(
+        160deg,
+        var(--cor-primaria-clara),
+        var(--cor-primaria)
+    );
+}
+.texto {
+    min-width: 0;
+    margin-left: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    letter-spacing: 1.5px;
+    gap: 3px;
+}
+.texto h1 {
+    font-size: 2.2rem;
+    text-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+}
+.texto p {
+    font-size: 0.9rem;
+    margin-top: 30px;
+}
+
+.texto button.comecar {
+    margin-top: 30px;
+    border-radius: 100px;
+    max-width: 100%;
+    padding: 10px 40px;
+    background: var(--cor-texto);
+    color: #fff8f1;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgb(51 37 27 / 14%);
+    border: 1px solid var(--cor-texto);
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.texto button.comecar:hover {
+    background: #50321d;
+    box-shadow: 0 8px 22px rgb(51 37 27 / 20%);
+}
+
+.imagem {
+    filter: blur(8px);
+    flex: 1 1 30%;
+    position: relative;
+    min-height: 560px;
+    height: calc(100svh - 140px);
+}
+.imagem img {
+    position: absolute;
+}
+.imagem .teclado {
+    right: -4%;
+    top: 30%;
+    width: 350px;
+    animation: flutuandoTeclado 7s ease-in-out -2s infinite;
+}
+.imagem .lapis {
+    top: 50%;
+    right: 80%;
+    width: 200px;
+    animation: flutuandoLapis 6s ease-in-out infinite;
+}
+.imagem .agenda {
+    top: 20%;
+    right: 90%;
+    width: 250px;
+    animation: flutuandoAgenda 5.5s ease-in-out -2s infinite;
+}
+.secao1 {
+    background: var(--cor-fundo);
+    min-height: 100svh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 72px 24px;
+}
+.sobreNos {
+    width: min(100%, 1120px);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+.cardSobreNos {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+}
+.cardSobreNos img {
+    width: 100%;
+    object-fit: contain;
+}
+.textoSobreNos {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+.textoSobreNos .titulo1 {
+    font-size: var(--fonte-logo-tamanho);
+    margin-top: 10%;
+}
+.textoSobreNos h3 {
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+.textoSobreNos p {
+    line-height: 1.8;
+}
+.secao2 {
+    min-height: 100svh;
+    background: var(--cor-fundo);
+    display: flex;
+    align-items: center;
+    padding: 72px 24px;
+}
+.solucoes {
+    width: min(100%, 1120px);
+    margin-inline: auto;
+}
+.tituloSolucoes {
+    margin-bottom: 36px;
+    text-align: center;
+}
+.tituloSolucoes h2 {
+    color: var(--cor-primaria-hover);
+    font-family: var(--fonte-logo);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    letter-spacing: -0.03em;
+}
+.tituloSolucoes p {
+    max-width: 48ch;
+    margin: 12px auto 0;
+    color: var(--cor-texto-secundario);
+}
+.containerCardsSolucoes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+.cardSolucao {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: clamp(24px, 3vw, 32px);
+    border: 1px solid #f0a04b;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffbd78, #ff9b3d);
+    color: #33251b;
+    box-shadow: 0 8px 24px rgb(184 84 0 / 18%);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.cardSolucao::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background:  var(--cor-primaria);
+}
+.nomeSolucao {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+}
+.nomeSolucao h3 {
+    min-height: 2.6em;
+    max-width: 19ch;
+    color: #33251b;
+    font: 600 1.35rem/1.3 var(--fonte-logo);
+    letter-spacing: -0.02em;
+}
+.nomeSolucao .icone {
+    width: 56px;
+    height: 56px;
+    padding: 13px;
+    border: 1px solid rgb(255 255 255 / 65%);
+    border-radius: 16px;
+    color: #a94700;
+    background: #fff3e6;
+}
+.textoCard {
+    color: #50321d;
+    font-size: 0.9rem;
+    line-height: 1.85;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .cardSolucao:hover {
+        transform: translateY(-5px);
+        border-color: var(--cor-primaria);
+        box-shadow: 0 16px 32px rgb(184 84 0 / 25%);
+    }
+}
+.rodape {
+    overflow-wrap: anywhere;
+    padding: 18px 32px;
+    color: var(--cor-fundo);
+    border-top: 1px solid var(--cor-fundo);
+    background: linear-gradient(
+        180deg,
+        var(--cor-primaria),
+        var(--cor-primaria-hover)
+    );
+    text-align: center;
+    font-size: var(--fonte-pequena);
+}
+.rodape p {
+    margin-bottom: 30px;
+}
+.rodape h4 {
+    font-size: inherit;
+}
+@keyframes flutuandoLapis {
+    0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+    25% { transform: translate(10px, -8px) rotate(2deg); }
+    50% { transform: translate(20px, -12px) rotate(0deg); }
+    75% { transform: translate(10px, -6px) rotate(-2deg); }
+}
+@keyframes flutuandoTeclado {
+    0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+    25% { transform: translate(-5px, -6px) rotate(-1deg); }
+    50% { transform: translate(-10px, -10px) rotate(0deg); }
+    75% { transform: translate(-5px, -5px) rotate(1deg); }
+}
+@keyframes flutuandoAgenda {
+    0%, 100% { transform: translateY(-10px) rotate(0deg); }
+    25% { transform: translateY(-4px) rotate(1deg); }
+    50% { transform: translateY(0px) rotate(0deg); }
+    75% { transform: translateY(-5px) rotate(-1deg); }
+}
+/* Apenas ajustes de encaixe em telas menores. */
+@media (max-width: 1100px) {
+    .texto { margin-left: 8%; }
+    .imagem .teclado { width: 280px; }
+    .imagem .agenda { width: 200px; }
+    .imagem .lapis { width: 160px; }
+    .sobreNos {
+        gap: 30px;
+    }
+}
+@media (min-width: 751px) and (max-width: 1000px) {
+    .containerCardsSolucoes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .cardSolucao:last-child {
+        grid-column: 1 / -1;
+        width: calc((100% - 24px) / 2);
+        justify-self: center;
+    }
+    .texto h1 {
+        font-size: clamp(1.8rem, 3.2vw, 2.2rem);
+        line-height: 1.2;
+    }
+    .textoSobreNos .titulo1 {
+        font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    }
+}
+@media (max-width: 750px) {
+    .imagem { display: none; }
+    .texto h1 span {
+        display: block;
+    }
+    .texto p {
+        max-width: 38ch;
+        margin-top: 0;
+        line-height: 1.7;
+    }
+    .texto button.comecar {
+        margin-top: 8px;
+        min-height: 48px;
+        width: fit-content;
+    }
+    .navbar button {
+        min-height: 44px;
+    }
+    .navbar {
+        position: absolute;
+        padding: 24px;
+    }
+    .logo img {
+        width: 40px;
+    }
+    .conteudo {
+        min-height: auto;
+        padding: 128px 24px 64px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .texto {
+        margin-inline: auto;
+        margin-left: auto;
+        width: min(100%, 780px);
+        text-align: center;
+        align-items: center;
+        gap: 20px;
+        letter-spacing: normal;
+    }
+    .texto h1 {
+        font-size: clamp(1.9rem, 6.5vw, 2.75rem);
+        max-width: 22ch;
+        line-height: 1.15;
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+    }
+    .sobreNos {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        max-width: 540px;
+    }
+    .cardSobreNos {
+        max-width: 340px;
+        margin: 0 auto;
+    }
+    .textoSobreNos .titulo1 {
+        font-size: 2rem;
+        margin-top: 0;
+    }
+    .secao1,
+    .secao2 {
+        min-height: auto;
+        padding: 64px 24px;
+    }
+    .containerCardsSolucoes {
+        grid-template-columns: 1fr;
+        max-width: 540px;
+        margin-inline: auto;
+        gap: 20px;
+    }
+    .nomeSolucao {
+        gap: 18px;
+    }
+    .nomeSolucao h3 {
+        min-height: auto;
+        max-width: none;
+    }
+}
+@media (max-width: 380px) {
+    .conteudo {
+        padding: 112px 16px 48px;
+    }
+    .secao1,
+    .secao2 {
+        padding: 48px 16px;
+    }
+    .cardSolucao {
+        padding: 24px;
+    }
+    .navbar {
+        padding: 20px 16px;
+    }
+    .logo img {
+        width: 34px;
+    }
+    .logo h2 {
+        font-size: 1.4rem;
+    }
+    .navbar button {
+        padding-inline: 20px;
+    }
+    .texto {
+        gap: 18px;
+    }
+}

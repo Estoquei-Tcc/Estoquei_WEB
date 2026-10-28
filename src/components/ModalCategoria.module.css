@@ -1,0 +1,59 @@
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.sobrepor {
+    position: absolute;
+    inset: 0;
+    background: rgb(33 37 27 / 40%);
+}
+.container {
+    position: relative;
+    width: min(100%, 460px);
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+    padding: 28px;
+    box-shadow: 0 16px 64px rgb(0 0 0 / 14%);
+}
+.container h1 {
+    font: 500 1.45rem var(--fonte-logo);
+    margin-bottom: 24px;
+}
+.secaoCadastro {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.campo {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.campo label {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.campo input {
+    min-height: 44px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cfd2c6;
+    border-radius: 6px;
+    background: white;
+}
+.buttonEnviar[type="button"] {
+    color: var(--cor-texto);
+    background: white;
+    border-color: var(--cor-borda);
+}
+.mensagem {
+    color: var(--cor-erro);
+    font-size: 0.75rem;
+}

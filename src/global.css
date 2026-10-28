@@ -1,0 +1,265 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+    --cor-primaria: #d05b0d;
+    --cor-primaria-hover: #aa4305;
+    --cor-primaria-clara: #ffb066;
+    --cor-fundo: #fff8f1;
+    --cor-superficie: #ffffff;
+    --cor-superficie-suave: #fff3e6;
+    --cor-texto: #382c24;
+    --cor-texto-secundario: #796a5c;
+    --cor-texto-claro: #ffffff;
+    --cor-borda: #ecdfd2;
+    --cor-borda-destaque: #e6b99d;
+    --cor-sucesso: #28664c;
+    --cor-sucesso-fundo: #edf5ef;
+    --cor-erro: #a13832;
+    --cor-erro-fundo: #fbefec;
+    --cor-alerta: #8d5c15;
+    --cor-alerta-fundo: #fcf3e2;
+    --sombra-card: 0 2px 6px rgb(37 40 30 / 3%);
+    --arredondamento-pequeno: 6px;
+    --arredondamento-medio: 8px;
+    --arredondamento-grande: 10px;
+    --fonte-base: "Poppins", sans-serif;
+    --fonte-logo: "Outfit", sans-serif;
+    --fonte-pequena: 0.75rem;
+    --fonte-corpo: 0.875rem;
+    --fonte-subtitulo: 1.125rem;
+    --fonte-titulo: 1.5rem;
+    --fonte-titulo-grande: 2rem;
+    --fonte-logo-tamanho: 2.5rem;
+    --espaco-pagina: clamp(20px, 3.2vw, 48px);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    min-width: 320px;
+    background: var(--cor-fundo);
+}
+body {
+    min-width: 320px;
+    color: var(--cor-texto);
+    background: var(--cor-fundo);
+    font-family: var(--fonte-base);
+    font-size: var(--fonte-corpo);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+button,
+input,
+select,
+textarea {
+    font: inherit;
+    color: inherit;
+}
+button,
+a,
+input,
+select,
+textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+button {
+    cursor: pointer;
+}
+button:disabled {
+    cursor: wait;
+    opacity: 0.55;
+}
+a {
+    color: var(--cor-primaria);
+    text-underline-offset: 3px;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+svg {
+    flex-shrink: 0;
+}
+h1,
+h2,
+h3 {
+    line-height: 1.25;
+}
+h1 {
+    font-size: var(--fonte-titulo);
+}
+h2 {
+    font-size: var(--fonte-subtitulo);
+}
+input,
+select,
+textarea {
+    min-width: 0;
+}
+input::placeholder,
+textarea::placeholder {
+    color: #85897e;
+    opacity: 1;
+}
+input[readonly] {
+    background: var(--cor-superficie-suave);
+    color: var(--cor-texto-secundario);
+}
+:where(button, a, input, select, textarea):focus-visible {
+    outline: 3px solid #e49561;
+    outline-offset: 3px;
+}
+::selection {
+    background: #f8d9c0;
+    color: var(--cor-texto);
+}
+
+/* Base compartilhada das telas internas. Os módulos só cuidam das diferenças. */
+.pagina-app {
+    width: 100%;
+    max-width: 1560px;
+    min-width: 0;
+    margin-inline: auto;
+    padding: var(--espaco-pagina);
+}
+.titulo-pagina {
+    color: var(--cor-texto);
+    font: 700 clamp(1.85rem, 2.8vw, 2.4rem)/1.15 var(--fonte-logo);
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+}
+.subtitulo-pagina {
+    margin-top: 8px;
+    max-width: 68ch;
+    color: var(--cor-texto-secundario);
+}
+.superficie {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--arredondamento-medio);
+    box-shadow: 0 2px 5px rgb(48 43 39 / 3%);
+}
+.botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 9px 16px;
+    border: 1px solid var(--cor-primaria);
+    border-radius: var(--arredondamento-pequeno);
+    background: var(--cor-primaria);
+    color: white;
+    font-size: 0.83rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        background-color 0.15s,
+        border-color 0.15s;
+}
+.botao:hover:not(:disabled) {
+    background: var(--cor-primaria-hover);
+    border-color: var(--cor-primaria-hover);
+}
+.botao-leve {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 8px 14px;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--arredondamento-pequeno);
+    color: var(--cor-texto);
+    background: var(--cor-superficie);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition:
+        background-color 0.15s,
+        border-color 0.15s;
+}
+.botao-leve:hover:not(:disabled) {
+    border-color: #bcbfb2;
+    background: var(--cor-superficie-suave);
+}
+.campo-controle {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #cfd2c6;
+    border-radius: var(--arredondamento-pequeno);
+    color: var(--cor-texto);
+    background: var(--cor-superficie);
+}
+.campo-controle:focus {
+    border-color: var(--cor-primaria);
+}
+.tabela-dados {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+.tabela-dados th {
+    padding: 12px 18px;
+    background: var(--cor-superficie-suave);
+    color: var(--cor-texto);
+    font-size: 0.73rem;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--cor-borda);
+}
+.tabela-dados td {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--cor-borda);
+    text-align: left;
+    vertical-align: middle;
+}
+.tabela-dados tbody tr:last-child td {
+    border-bottom: 0;
+}
+.tabela-dados tbody tr:hover {
+    background: #fcfcf9;
+}
+.estado-vazio {
+    padding: 32px 20px;
+    color: var(--cor-texto-secundario);
+    text-align: center;
+}
+@media (max-width: 600px) {
+    :root {
+        --espaco-pagina: 20px 16px 32px;
+    }
+    .botao,
+    .botao-leve {
+        min-height: 44px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Marca visual dos titulos da area interna. */
+.pagina-app h1::after,
+.pagina-app > .titulo-pagina::after {
+    content: "";
+    display: block;
+    width: 44px;
+    height: 4px;
+    margin-top: 12px;
+    border-radius: 2px;
+    background: var(--cor-primaria);
+}
+
+textarea {
+    resize: none;
+}

@@ -1,0 +1,26 @@
+.container {
+    padding: 24px 32px;
+    border-top: 1px solid var(--cor-borda);
+    background: #fff0df;
+    color: var(--cor-texto-secundario);
+    font-size: 0.68rem;
+    text-align: center;
+}
+.container h3 {
+    color: var(--cor-primaria);
+    font: 600 1.1rem var(--fonte-logo);
+    margin-bottom: 4px;
+}
+.container p {
+    margin-bottom: 12px;
+}
+.container h4 {
+    font-size: inherit;
+    font-weight: 400;
+    margin-top: 3px;
+}
+@media (max-width: 600px) {
+    .container {
+        padding: 22px 16px;
+    }
+}

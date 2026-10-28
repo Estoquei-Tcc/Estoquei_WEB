@@ -1,0 +1,76 @@
+.conteudo {
+    width: 100%;
+    max-width: 880px;
+    margin: clamp(8px, 2vh, 24px) auto;
+}
+.registrar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    padding: clamp(20px, 3vw, 36px);
+}
+.registrar h1 {
+    color: var(--cor-texto);
+    font: 700 clamp(1.85rem, 2.8vw, 2.4rem)/1.15 var(--fonte-logo);
+    letter-spacing: -0.025em;
+    grid-column: 1 / -1;
+    margin-bottom: 8px;
+}
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+.campo label {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.campo input,
+.campo select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #d8d0c9;
+    border-radius: 6px;
+    background: white;
+}
+.campo:last-of-type {
+    grid-column: 1 / -1;
+    max-width: 520px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cor-borda);
+}
+.campo .unitot {
+    max-width: 220px;
+}
+.alerta {
+    color: var(--cor-texto-secundario);
+    font-size: 0.75rem;
+}
+.mensagem {
+    color: var(--cor-erro);
+    font-size: 0.75rem;
+}
+.buttonEnviar {
+    grid-column: 1 / -1;
+    justify-self: start;
+    min-width: 160px;
+    margin-top: 4px;
+}
+@media (max-width: 600px) {
+    .registrar {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .buttonEnviar {
+        width: 100%;
+    }
+    .campo .unitot {
+        max-width: none;
+    }
+}
+
+.alerta, .mensagem {
+    font-weight: 500;
+}

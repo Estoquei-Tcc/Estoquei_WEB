@@ -1,0 +1,40 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /historico/{movimentoId} {
+      allow read: if request.auth != null && resource.data.usuarioId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.usuarioId == request.auth.uid;
+    }
+    match /categorias/{categoriaId} {
+      allow read: if request.auth != null && resource.data.usuarioId == request.auth.uid;
+      allow create: if request.auth != null
+        && request.resource.data.usuarioId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['nome', 'usuarioId'])
+        && request.resource.data.nome is string
+        && request.resource.data.nome.size() > 0
+        && request.resource.data.nome.size() <= 80;
+      allow update: if request.auth != null
+        && resource.data.usuarioId == request.auth.uid
+        && request.resource.data.usuarioId == resource.data.usuarioId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nome'])
+        && request.resource.data.nome is string
+        && request.resource.data.nome.size() > 0
+        && request.resource.data.nome.size() <= 80;
+    }
+    match /contadoresProdutos/{usuarioId} {
+      allow read: if request.auth != null && request.auth.uid == usuarioId;
+      allow create: if request.auth != null && request.auth.uid == usuarioId
+        && request.resource.data.keys().hasOnly(['ultimoCodigo'])
+        && request.resource.data.ultimoCodigo is int
+        && request.resource.data.ultimoCodigo > 0;
+      allow update: if request.auth != null && request.auth.uid == usuarioId
+        && request.resource.data.keys().hasOnly(['ultimoCodigo'])
+        && request.resource.data.ultimoCodigo is int
+        && request.resource.data.ultimoCodigo == resource.data.ultimoCodigo + 1;
+    }
+    match /produtos/{produtoId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

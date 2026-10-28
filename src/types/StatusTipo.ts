@@ -1,0 +1,1 @@
+export type StatusTipo = 'Esgotado' | 'Baixo' | 'Normal' | 'Cheio'
