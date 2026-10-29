@@ -5,66 +5,86 @@
     gap: 20px;
     margin-bottom: 28px;
 }
+
 .topoEsquerda h1 {
-    color: var(--cor-texto);
-    font: 700 clamp(1.85rem, 2.8vw, 2.4rem)/1.15 var(--fonte-logo);
+    color: #382c24;
+    font-family: "Outfit", sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.15;
     letter-spacing: -0.025em;
 }
+
 .topoEsquerda p {
     margin-top: 8px;
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
 }
+
 .btnAdicionar {
     flex-shrink: 0;
 }
+
 .resumo {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     margin-bottom: 30px;
-    background: var(--cor-superficie);
-    border: 1px solid var(--cor-borda);
+    background: #ffffff;
+    border: 1px solid #ecdfd2;
     border-radius: 8px;
     overflow: hidden;
+    box-shadow: 0 3px 10px #412b1b0f;
 }
+
 .resumoCard {
     min-width: 0;
     padding: 22px 18px;
-    border-right: 1px solid var(--cor-borda);
+    border-right: 1px solid #ecdfd2;
 }
-.resumoCard:first-child {
+
+.cardTotal {
     padding-left: 20px;
 }
-.resumoCard:last-child {
+
+.cardBaixos {
     border-right: 0;
 }
+
 .resumoLabel {
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     font-size: 0.73rem;
     margin-bottom: 8px;
 }
+
 .resumoValor {
-    font: 600 clamp(1.5rem, 2.2vw, 2rem)/1.2 var(--fonte-logo);
+    font-family: "Outfit", sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
     overflow-wrap: anywhere;
-    font-variant-numeric: tabular-nums;
     letter-spacing: -0.025em;
 }
+
 .resumoSub {
     font-size: 0.7rem;
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     margin-top: 5px;
 }
+
 .resumoValorAlerta {
-    color: var(--cor-erro);
+    color: #a13832;
 }
+
 .painel {
     margin-bottom: 20px;
 }
+
 .painelLinha {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     align-items: center;
 }
+
 .campoBusca {
     display: flex;
     align-items: center;
@@ -73,11 +93,12 @@
     min-width: 0;
     min-height: 44px;
     padding: 0 12px;
-    background: var(--cor-superficie);
+    background: #ffffff;
     border: 1px solid #d8d0c9;
     border-radius: 6px;
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
 }
+
 .campoBusca input {
     width: 100%;
     min-height: 42px;
@@ -86,14 +107,13 @@
     padding: 6px 0;
     font-size: 0.8rem;
 }
-.campoBusca:focus-within {
-    border-color: var(--cor-primaria);
-}
+
 .select {
     width: auto;
     flex: 0 1 210px;
     font-size: 0.8rem;
 }
+
 .botoesStatus {
     flex-basis: 100%;
     display: flex;
@@ -101,65 +121,78 @@
     gap: 6px;
     margin-top: 4px;
 }
+
 .botaoFiltro {
     min-height: 36px;
     border: 1px solid transparent;
     border-radius: 5px;
     padding: 6px 13px;
     background: transparent;
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     font-size: 0.76rem;
 }
+
 .botaoFiltro:hover {
     background: #eceee6;
-    color: var(--cor-texto);
+    color: #382c24;
 }
+
 .botaoAtivo,
 .botaoAtivo:hover {
     background: #fae6d7;
-    color: var(--cor-primaria-hover);
+    color: #aa4305;
     border-color: #edc8ae;
 }
+
 .tabelaWrap {
     overflow-x: auto;
 }
+
 .tabelaWrap table {
     min-width: 760px;
 }
+
 .tabelaWrap tbody tr {
     cursor: pointer;
 }
+
 .tabelaWrap tbody tr:hover {
     background: #f8f9f4;
 }
+
 .tabelaCabecalho {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 12px;
     padding: 18px;
-    border-bottom: 1px solid var(--cor-borda);
+    border-bottom: 1px solid #ecdfd2;
 }
+
 .tabelaTitulo {
     font-weight: 600;
 }
+
 .tabelaContagem,
 .codigoProduto {
     font-size: 0.72rem;
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
 }
+
 .nomeProduto {
     font-weight: 600;
     margin-bottom: 2px;
 }
+
 .tdMutado {
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
 }
+
 .tdBold,
 .classeQtd {
-    font-variant-numeric: tabular-nums;
     font-weight: 600;
 }
+
 .pill {
     display: inline-flex;
     padding: 3px 9px;
@@ -169,48 +202,66 @@
     color: #5b6054;
     white-space: nowrap;
 }
+
 .pillNormal {
-    color: var(--cor-sucesso);
-    background: var(--cor-sucesso-fundo);
+    color: #28664c;
+    background: #edf5ef;
 }
+
 .pillBaixo {
-    color: var(--cor-alerta);
-    background: var(--cor-alerta-fundo);
+    color: #8d5c15;
+    background: #fcf3e2;
 }
+
 .pillZerado {
-    color: var(--cor-erro);
-    background: var(--cor-erro-fundo);
+    color: #a13832;
+    background: #fbefec;
 }
+
 .btnAcoes {
     min-height: 34px;
     padding: 5px 10px;
     font-size: 0.73rem;
 }
+
 @media (max-width: 700px) {
     .topo {
         flex-direction: column;
     }
+
     .resumo {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr 1fr;
     }
+
     .resumoCard {
         padding: 18px 12px;
     }
-    .resumoCard:nth-child(odd) {
+
+    .cardTotal,
+    .cardEsgotados {
         padding-left: 0;
     }
-    .resumoCard:nth-child(2) {
+
+    .cardValor {
         border-right: 0;
     }
-    .resumoCard:nth-child(-n + 2) {
-        border-bottom: 1px solid var(--cor-borda);
+
+    .cardTotal,
+    .cardValor {
+        border-bottom: 1px solid #ecdfd2;
     }
+
     .select {
         width: 100%;
         flex-basis: 100%;
     }
+
     .tabelaCabecalho {
         flex-wrap: wrap;
+    }
+
+    .topoEsquerda h1 {
+        font-size: 1.85rem;
     }
 }
 
@@ -218,18 +269,17 @@
     min-width: 150px;
 }
 
-.resumoCard:first-child .resumoValor {
-    color: var(--cor-primaria);
+.valorTotal {
+    color: #d05b0d;
 }
 
-.resumo {
-    box-shadow: 0 3px 10px rgb(65 43 27 / 6%);
-}
 .botaoAtivo {
-    box-shadow: 0 1px 3px rgb(127 56 12 / 8%);
+    box-shadow: 0 1px 3px #7f380c14;
     font-weight: 600;
 }
 
-.topoEsquerda p, .resumoLabel, .pill {
+.topoEsquerda p,
+.resumoLabel,
+.pill {
     font-weight: 500;
 }

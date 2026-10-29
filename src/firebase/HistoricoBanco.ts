@@ -41,7 +41,6 @@ export async function guardarMovimento(registro: RegistroMovimento): Promise<voi
     await autenticacao.authStateReady();
     const usuarioId = autenticacao.currentUser?.uid;
     if (!usuarioId) throw new Error("É necessário estar autenticado para registrar movimentos.");
-    if (!registro.produtoId || registro.produtoId.includes("/")) throw new Error("Produto inválido.");
     if (!Number.isFinite(registro.quantidade) || registro.quantidade <= 0) throw new Error("Informe uma quantidade válida.");
     if (registro.entrasai !== "entrada" && registro.entrasai !== "saida") throw new Error("Informe entrada ou saída.");
     if (registro.preco !== undefined && (!Number.isFinite(registro.preco) || registro.preco <= 0)) throw new Error("Informe um preço válido.");

@@ -9,7 +9,7 @@ type Categoria = {
 };
 
 const categoriaSchema = z.object({
-    nome: z.string().trim().max(80, "Máximo de 80 caracteres.").min(1, {
+    nome: z.string().trim().min(1, {
         message: "Informe a categoria.",
     }),
 });

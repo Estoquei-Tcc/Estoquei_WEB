@@ -26,21 +26,13 @@ async function obterUsuarioId(): Promise<string> {
     return usuarioId;
 }
 
-function referenciaProduto(id: string) {
-    if (!id || id.includes('/')) {
-        throw new Error('Informe um ID de documento de produto válido.');
-    }
-
-    return doc(produtos, id);
-}
-
 function prepararProduto(produto: ProdutoTipo, usuarioId: string): ProdutoDocumento {
     const status = produto.estoque === 0 ? 'Esgotado'
         : produto.estoque <= produto.qtdMin ? 'Baixo'
         : produto.estoque >= produto.qtdMax ? 'Cheio'
         : 'Normal';
 
-    // Persiste somente os campos aceitos pelas regras, sem o ID do documento.
+    // Salva os dados do produto, sem copiar o ID do documento.
     return {
         nome: produto.nome,
         codigo: produto.codigo,
@@ -83,7 +75,7 @@ export async function cadastrarProduto(produto: NovoProduto): Promise<string> {
     await runTransaction(bancoDados, async (transacao) => {
         const contador = await transacao.get(contadorRef);
         const ultimoCodigo = contador.exists() ? contador.data().ultimoCodigo : maiorCodigoExistente;
-        if (!Number.isSafeInteger(ultimoCodigo) || ultimoCodigo < 0 || ultimoCodigo >= Number.MAX_SAFE_INTEGER) {
+        if (!Number.isInteger(ultimoCodigo) || ultimoCodigo < 0) {
             throw new Error("Não foi possível gerar o código do produto.");
         }
         const codigo = ultimoCodigo + 1;
@@ -95,7 +87,7 @@ export async function cadastrarProduto(produto: NovoProduto): Promise<string> {
 
 export async function editarProduto(id: string, produto: ProdutoTipo): Promise<void> {
     const usuarioId = await obterUsuarioId();
-    const referencia = referenciaProduto(id);
+    const referencia = doc(produtos, id);
     await runTransaction(bancoDados, async (transacao) => {
         const documento = await transacao.get(referencia);
         if (!documento.exists()) throw new Error("Produto não encontrado.");
@@ -109,7 +101,7 @@ export async function editarProduto(id: string, produto: ProdutoTipo): Promise<v
 
 export async function excluirProduto(id: string): Promise<void> {
     await obterUsuarioId();
-    await deleteDoc(referenciaProduto(id));
+    await deleteDoc(doc(produtos, id));
 }
 
 // Mantém os dados do contexto sincronizados com o banco.

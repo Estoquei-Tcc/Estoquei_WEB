@@ -1,24 +1,30 @@
 .descricao {
     margin-bottom: 28px;
 }
+
 .formProduto {
     max-width: 1040px;
-    padding: 4px clamp(20px, 3vw, 32px) 28px;
+    padding: 4px 32px 28px;
 }
+
 .secaoCadastro {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 0 24px;
 }
-.secaoCadastro:first-child {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+
+.secaoInformacoes {
+    grid-template-columns: 2fr 1fr;
 }
-.secaoCadastro:first-child .campo:last-child {
+
+.campoDescricao {
     grid-column: 1 / -1;
 }
+
 .secao3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr 1fr;
 }
+
 .campo {
     display: flex;
     flex-direction: column;
@@ -26,17 +32,20 @@
     margin-top: 24px;
     gap: 8px;
 }
-.campo label,
-.campo > span {
+
+.campo label {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--cor-texto);
+    color: #382c24;
 }
-.campo > p {
-    color: var(--cor-texto-secundario);
+
+.campo p {
+    color: #796a5c;
     font-size: 0.75rem;
     padding-top: 8px;
+    font-weight: 500;
 }
+
 .campo input,
 .campo select,
 .campo textarea {
@@ -47,51 +56,53 @@
     border-radius: 6px;
     background: white;
 }
-.campo input[readonly] {
-    background: var(--cor-superficie-suave);
-    color: var(--cor-texto-secundario);
-}
+
 .campo textarea {
     min-height: 88px;
     resize: none;
 }
+
 .formProduto button {
     min-height: 44px;
     margin-top: 28px;
     padding: 10px 20px;
-    border: 1px solid var(--cor-primaria);
+    border: 1px solid #d05b0d;
     border-radius: 6px;
-    background: var(--cor-primaria);
+    background: #d05b0d;
     color: white;
     justify-self: start;
     font-weight: 600;
 }
+
 .formProduto button:hover {
-    background: var(--cor-primaria-hover);
+    background: #aa4305;
+    color: white;
 }
-.formProduto button[type="button"] {
-    background: white;
-    color: var(--cor-texto);
-    border-color: var(--cor-borda);
+
+.formProduto .botaoCancelar {
+    background: #ecdfd2;
+    color: #382c24;
+    border-color: #ecdfd2;
+    margin-left: 15px;
 }
+
 @media (max-width: 650px) {
     .secaoCadastro,
-    .secaoCadastro:first-child,
+    .secaoInformacoes,
     .secao3 {
         grid-template-columns: 1fr;
     }
+
     .formProduto {
         padding: 0 18px 24px;
     }
+
     .campo {
         margin-top: 20px;
     }
+
     .formProduto button {
         width: 100%;
         margin-top: 20px;
     }
-}
-
-.campo > p {
-    font-weight: 500;
 }

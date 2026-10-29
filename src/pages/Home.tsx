@@ -6,6 +6,7 @@ import Logo from "../assets/Logo.png";
 import Teclado from "../assets/Teclado2.png";
 import Lapis from "../assets/Lapis.png";
 import Agenda from "../assets/Agenda.png";
+import FotoTCC from "../assets/Foto TCC.jpeg"
 
 import { FaCashRegister } from "react-icons/fa";
 import { GiPayMoney } from "react-icons/gi";
@@ -52,13 +53,9 @@ const Home = () => {
                 <div className={estilos.sobreNos}>
                     <div className={estilos.cardSobreNos}>
                         <img
-                            src="https://static.vecteezy.com/ti/vetor-gratis/p1/19133604-mulher-de-entrega-de-desenho-estilo-plano-dos-desenhos-animados-em-pe-com-gesto-ok-e-simbolo-de-mapa-de-pinos-carregando-caixa-de-embalagem-que-o-cliente-encomendou-para-ser-entregue-com-seguranca-ilustracaoial-de-design-grafico-vetor.jpg"
-                            onError={(evento) => {
-                                evento.currentTarget.onerror = null;
-                                evento.currentTarget.src = Agenda;
-                            }}
-                            alt="Organização e entrega de produtos"
-                            loading="lazy"
+                            src={FotoTCC}
+                           
+                            alt="Foto do grupo do TCC"
                         />{" "}
                     </div>
 

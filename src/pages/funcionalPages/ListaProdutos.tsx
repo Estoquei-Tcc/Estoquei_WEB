@@ -1,11 +1,8 @@
 import styles from "./ListaProdutos.module.css";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useProdutos } from "../../hooks/useProdutos";
 import { useState } from "react";
-
-// ─── Componente principal ─────────────────────────────────────────────────────
 
 export default function ListaProdutos() {
     const [filtro, setFiltro] = useState("Todos");
@@ -34,39 +31,36 @@ export default function ListaProdutos() {
         setFiltroNome(e.currentTarget.value);
     };
 
-    const produtosFiltrados = produtos.filter((p) => {
-        if (filtro === "Todos" && filtroCategoria === "Todas") return true;
-        else if (filtro == "Todos" && filtroCategoria == p.categoria)
-            return true;
-        else if (filtro == p.status && filtroCategoria == "Todas") return true;
-        else if (filtro == p.status && filtroCategoria == p.categoria)
-            return true;
+    // O produto precisa atender aos três filtros ao mesmo tempo.
+    const produtosFiltrados = produtos.filter((produto) => {
+        const correspondeStatus = filtro === "Todos" || produto.status === filtro;
+
+        const correspondeCategoria =
+            filtroCategoria === "Todas" || produto.categoria === filtroCategoria;
+
+        const correspondeNome = produto.nome.toLowerCase().includes(filtroNome.toLowerCase());
+
+        return correspondeStatus && correspondeCategoria && correspondeNome;
     });
 
-    const segundoFiltro = produtosFiltrados.filter((p) => {
-        if (filtroNome == "") return true;
+    const valorEstoque = produtos.reduce(
+        (total, produto) => total + produto.precoCusto * produto.estoque,
+        0,
+    );
 
-        const palavra = filtroNome.toLowerCase();
+    const produtosEsgotados = produtos.filter((produto) => produto.status === "Esgotado").length;
 
-        const produtoNome = p.nome.toLowerCase();
+    const produtosBaixos = produtos.filter((produto) => produto.status === "Baixo").length;
 
-        return produtoNome.includes(palavra);
-    });
+    const coresStatus: Record<string, string> = {
+        Esgotado: styles.pillZerado,
+        Baixo: styles.pillBaixo,
+        Normal: styles.pillNormal,
+        Cheio: "",
+    };
 
-    if (carregando)
-        return (
-            <div className="pagina-app pagina-consulta">
-                <p role="status">Carregando produtos...</p>
-            </div>
-        );
-    if (erro)
-        return (
-            <div className="pagina-app pagina-consulta">
-                <p role="alert">
-                    Não foi possível carregar os produtos: {erro}
-                </p>
-            </div>
-        );
+    if (carregando) return <p role="status">Carregando produtos...</p>;
+    if (erro) return <p role="alert">Não foi possível carregar os produtos: {erro}</p>;
 
     return (
         <div className="pagina-app pagina-consulta">
@@ -76,10 +70,7 @@ export default function ListaProdutos() {
                     <h1>Produtos</h1>
                     <p>Gerencie e acompanhe seu estoque em tempo real</p>
                 </div>
-                <Link
-                    to="/principal/cadastroProd"
-                    className={"botao " + styles.btnAdicionar}
-                >
+                <Link to="/principal/cadastroProd" className={"botao " + styles.btnAdicionar}>
                     <svg
                         width="18"
                         height="18"
@@ -97,56 +88,34 @@ export default function ListaProdutos() {
 
             {/* ── Cards de resumo ── */}
             <div className={styles.resumo}>
-                <div className={styles.resumoCard}>
+                <div className={styles.resumoCard + " " + styles.cardTotal}>
                     <p className={styles.resumoLabel}>Total de produtos</p>
-                    <p className={styles.resumoValor}>{produtos.length}</p>
-                    <p className={styles.resumoSub}>
-                        {categorias.length} categorias
+                    <p className={styles.resumoValor + " " + styles.valorTotal}>
+                        {produtos.length}
                     </p>
+                    <p className={styles.resumoSub}>{categorias.length} categorias</p>
                 </div>
-                <div className={styles.resumoCard}>
+                <div className={styles.resumoCard + " " + styles.cardValor}>
                     <p className={styles.resumoLabel}>Valor em estoque</p>
                     <p className={styles.resumoValor}>
-                        {produtos
-                            .reduce(
-                                (total, produto) =>
-                                    total +
-                                    produto.precoCusto * produto.estoque,
-                                0,
-                            )
-                            .toLocaleString("pt-BR", {
-                                style: "currency",
-                                currency: "BRL",
-                            })}
+                        {valorEstoque.toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                        })}
                     </p>
                     <p className={styles.resumoSub}>preço de custo</p>
                 </div>
-                <div
-                    className={`${styles.resumoCard} ${styles.resumoCardAlerta}`}
-                >
-                    <p
-                        className={`${styles.resumoLabel} ${styles.resumoLabelAlerta}`}
-                    >
-                        Sem estoque
+                <div className={`${styles.resumoCard} ${styles.cardEsgotados}`}>
+                    <p className={styles.resumoLabel}>Sem estoque</p>
+                    <p className={`${styles.resumoValor} ${styles.resumoValorAlerta}`}>
+                        {produtosEsgotados}
                     </p>
-                    <p
-                        className={`${styles.resumoValor} ${styles.resumoValorAlerta}`}
-                    >
-                        {produtos.filter((p) => p.status == "Esgotado").length}
-                    </p>
-                    <p
-                        className={`${styles.resumoSub} ${styles.resumoSubAlerta}`}
-                    >
-                        requer atenção
-                    </p>
+                    <p className={styles.resumoSub}>requer atenção</p>
                 </div>
-                <div className={styles.resumoCard}>
+                <div className={styles.resumoCard + " " + styles.cardBaixos}>
                     <p className={styles.resumoLabel}>Estoque baixo</p>
-                    <p
-                        className={styles.resumoValor}
-                        style={{ color: "var(--cor-primaria-base)" }}
-                    >
-                        {produtos.filter((p) => p.status == "Baixo").length}
+                    <p className={styles.resumoValor} style={{ color: "#d05b0d" }}>
+                        {produtosBaixos}
                     </p>
                     <p className={styles.resumoSub}>abaixo do mínimo</p>
                 </div>
@@ -199,26 +168,26 @@ export default function ListaProdutos() {
                         <button
                             onClick={filtrar}
                             value="Todos"
-                            className={`${styles.botaoFiltro} ${filtro == "Todos" ? styles.botaoAtivo : ""}`}
+                            className={`${styles.botaoFiltro} ${filtro === "Todos" ? styles.botaoAtivo : ""}`}
                         >
                             Todos
                         </button>
                         <button
-                            className={`${styles.botaoFiltro} ${filtro == "Normal" ? styles.botaoAtivo : ""}`}
+                            className={`${styles.botaoFiltro} ${filtro === "Normal" ? styles.botaoAtivo : ""}`}
                             onClick={filtrar}
                             value="Normal"
                         >
                             Normal
                         </button>
                         <button
-                            className={`${styles.botaoFiltro} ${filtro == "Baixo" ? styles.botaoAtivo : ""}`}
+                            className={`${styles.botaoFiltro} ${filtro === "Baixo" ? styles.botaoAtivo : ""}`}
                             onClick={filtrar}
                             value="Baixo"
                         >
                             Baixo
                         </button>
                         <button
-                            className={`${styles.botaoFiltro} ${filtro == "Esgotado" ? styles.botaoAtivo : ""}`}
+                            className={`${styles.botaoFiltro} ${filtro === "Esgotado" ? styles.botaoAtivo : ""}`}
                             onClick={filtrar}
                             value="Esgotado"
                         >
@@ -226,7 +195,7 @@ export default function ListaProdutos() {
                         </button>
 
                         <button
-                            className={`${styles.botaoFiltro} ${filtro == "Cheio" ? styles.botaoAtivo : ""}`}
+                            className={`${styles.botaoFiltro} ${filtro === "Cheio" ? styles.botaoAtivo : ""}`}
                             onClick={filtrar}
                             value="Cheio"
                         >
@@ -239,20 +208,10 @@ export default function ListaProdutos() {
             {/* ── Tabela ── */}
             <div className={"superficie " + styles.tabelaWrap}>
                 <div className={styles.tabelaCabecalho}>
-                    <span className={styles.tabelaTitulo}>
-                        Lista de produtos
+                    <span className={styles.tabelaTitulo}>Lista de produtos</span>
+                    <span className={styles.tabelaContagem}>
+                        {produtosFiltrados.length} produtos
                     </span>
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 12,
-                        }}
-                    >
-                        <span className={styles.tabelaContagem}>
-                            {segundoFiltro.length} produtos
-                        </span>
-                    </div>
                 </div>
 
                 <table className="tabela-dados">
@@ -269,18 +228,7 @@ export default function ListaProdutos() {
                         </tr>
                     </thead>
                     <tbody>
-                        {segundoFiltro.length === 0 && (
-                            <tr>
-                                <td colSpan={8}>
-                                    <p className="estado-vazio">
-                                        Nenhum produto encontrado. Ajuste os
-                                        filtros ou cadastre um produto.
-                                    </p>
-                                </td>
-                            </tr>
-                        )}
-
-                        {segundoFiltro.map((p) => {
+                        {produtosFiltrados.map((p) => {
                             return (
                                 <tr
                                     key={p.codigo}
@@ -291,44 +239,24 @@ export default function ListaProdutos() {
                                     <td>
                                         <div className={styles.celulaProduto}>
                                             <div>
-                                                <p
-                                                    className={
-                                                        styles.nomeProduto
-                                                    }
-                                                >
-                                                    {p.nome}
-                                                </p>
-                                                <p
-                                                    className={
-                                                        styles.codigoProduto
-                                                    }
-                                                >
+                                                <p className={styles.nomeProduto}>{p.nome}</p>
+                                                <p className={styles.codigoProduto}>
                                                     Cód: {p.codigo}
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className={styles.tdMutado}>
-                                        {p.categoria}
-                                    </td>
+                                    <td className={styles.tdMutado}>{p.categoria}</td>
                                     <td className={styles.tdMutado}>
                                         R$ {p.precoCusto.toFixed(2)}
                                     </td>
-                                    <td className={styles.tdBold}>
-                                        R$ {p.precoVenda.toFixed(2)}
-                                    </td>
-                                    <td className={styles.tdMutado}>
-                                        {p.qtdMin} un.
-                                    </td>
+                                    <td className={styles.tdBold}>R$ {p.precoVenda.toFixed(2)}</td>
+                                    <td className={styles.tdMutado}>{p.qtdMin} un.</td>
                                     <td>
-                                        <span className={styles.classeQtd}>
-                                            {p.estoque} un.
-                                        </span>
+                                        <span className={styles.classeQtd}>{p.estoque} un.</span>
                                     </td>
                                     <td className={styles.tdBold}>
-                                        <span
-                                            className={`${styles.pill} ${p.status === "Esgotado" ? styles.pillZerado : p.status === "Baixo" ? styles.pillBaixo : p.status === "Normal" ? styles.pillNormal : ""}`}
-                                        >
+                                        <span className={`${styles.pill} ${coresStatus[p.status]}`}>
                                             {p.status}
                                         </span>
                                     </td>
@@ -337,10 +265,7 @@ export default function ListaProdutos() {
                                             className={"botao-leve " + styles.btnAcoes}
                                             onClick={(evento) => {
                                                 evento.stopPropagation();
-                                                navigate(
-                                                    "/principal/editarProduto/" +
-                                                        p.id,
-                                                );
+                                                navigate("/principal/editarProduto/" + p.id);
                                             }}
                                         >
                                             Editar

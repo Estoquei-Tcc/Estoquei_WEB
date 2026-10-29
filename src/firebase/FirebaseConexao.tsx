@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react'
 import {signInWithEmailAndPassword} from 'firebase/auth'
 import { MdError } from 'react-icons/md'
 
-// Protege as credenciais em variáveis de ambiente
+// Carrega a configuração do Firebase das variáveis de ambiente.
 const firebaseConfig = {
 apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,

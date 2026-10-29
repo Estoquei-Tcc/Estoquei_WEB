@@ -1,4 +1,3 @@
-import NotificacaoAlerta from "../../components/NotificacaoAlerta";
 import { useHistorico } from "../../hooks/useHistorico";
 import { useProdutos } from "../../hooks/useProdutos";
 import estilos from "./Dashboard.module.css";
@@ -6,56 +5,100 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
     const navigate = useNavigate();
-    const {
-        produtos,
-        carregando: carregandoProdutos,
-        erro: erroProdutos,
-    } = useProdutos();
-    const {
-        movimentacoes,
-        carregando: carregandoHistorico,
-        erro: erroHistorico,
-    } = useHistorico();
+
+    const { produtos, carregando: carregandoProdutos, erro: erroProdutos } = useProdutos();
+
+    const { movimentacoes, carregando: carregandoHistorico, erro: erroHistorico } = useHistorico();
+
     const hoje = new Date();
-    const saidasHoje = movimentacoes.filter(
+
+    // Sete dias de calendário, incluindo hoje, no horário local.
+    const inicioSemana = new Date(hoje);
+
+    inicioSemana.setDate(inicioSemana.getDate() - 6);
+    inicioSemana.setHours(0, 0, 0, 0);
+
+    const movimentacoesSemana = movimentacoes.filter(
         (movimento) =>
-            movimento.entrasai === "saida" &&
-            movimento.data.toDateString() === hoje.toDateString(),
+            movimento.data.getTime() >= inicioSemana.getTime() &&
+            movimento.data.getTime() <= hoje.getTime(),
     );
-    const valorSaidas = saidasHoje.reduce(
-        (total, movimento) => total + movimento.precoTotal,
+
+    const ultimasMovimentacoesSemana = [...movimentacoesSemana]
+        .sort((a, b) => b.data.getTime() - a.data.getTime())
+        .slice(0, 5);
+
+    const saidasSemana = movimentacoesSemana.filter((movimento) => movimento.entrasai === "saida");
+
+    const valorSaidas = saidasSemana.reduce((total, movimento) => total + movimento.precoTotal, 0);
+
+    const unidadesSaida = saidasSemana.reduce(
+        (total, movimento) => total + movimento.quantidade,
         0,
     );
-    const saidasPorProduto = new Map<string, {
+
+    const categoriasEmUso = new Set(produtos.map((produto) => produto.categoria)).size;
+
+    // Junta as saídas do mesmo produto para encontrar o mais movimentado.
+    const saidasPorProduto: {
         produtoId?: string;
         codigo: number;
         nome: string;
         quantidade: number;
-    }>();
-    for (const movimento of saidasHoje) {
-        const chave = movimento.produtoId || String(movimento.codigoProduto);
-        const acumulado = saidasPorProduto.get(chave);
-        saidasPorProduto.set(chave, {
-            produtoId: movimento.produtoId,
-            codigo: movimento.codigoProduto,
-            nome: movimento.nomeProduto || "Produto " + movimento.codigoProduto,
-            quantidade: (acumulado?.quantidade ?? 0) + movimento.quantidade,
+    }[] = [];
+
+    for (const movimento of saidasSemana) {
+        const acumulado = saidasPorProduto.find((item) => {
+            if (movimento.produtoId) return item.produtoId === movimento.produtoId;
+
+            return !item.produtoId && item.codigo === movimento.codigoProduto;
         });
+
+        const nome = movimento.nomeProduto || "Produto " + movimento.codigoProduto;
+
+        if (acumulado) {
+            acumulado.quantidade += movimento.quantidade;
+            acumulado.nome = nome;
+        } else {
+            saidasPorProduto.push({
+                produtoId: movimento.produtoId,
+                codigo: movimento.codigoProduto,
+                nome,
+                quantidade: movimento.quantidade,
+            });
+        }
     }
-    const produtoDoDia = [...saidasPorProduto.values()].sort(
+
+    const produtoDaSemana = saidasPorProduto.sort(
         (a, b) => b.quantidade - a.quantidade || a.nome.localeCompare(b.nome, "pt-BR"),
     )[0];
-    const produtoDestaque = produtoDoDia && produtos.find((produto) =>
-        produtoDoDia.produtoId
-            ? produto.id === produtoDoDia.produtoId
-            : produto.codigo === produtoDoDia.codigo,
-    );
+
+    const produtoDestaque =
+        produtoDaSemana &&
+        produtos.find((produto) =>
+            produtoDaSemana.produtoId
+                ? produto.id === produtoDaSemana.produtoId
+                : produto.codigo === produtoDaSemana.codigo,
+        );
+
     const zerados = produtos.filter((produto) => produto.estoque === 0).length;
+
     const baixos = produtos.filter(
         (produto) => produto.estoque > 0 && produto.estoque <= produto.qtdMin,
     ).length;
+
     const carregando = carregandoProdutos || carregandoHistorico;
+
     const erro = erroProdutos || erroHistorico;
+
+    const nomeDestaque = produtoDestaque?.nome || produtoDaSemana?.nome || "Sem saídas na semana";
+
+    const destinoDestaque = produtoDestaque
+        ? "/principal/detalheProduto/" + produtoDestaque.codigo
+        : "/principal/historico";
+
+    if (carregando) return <p role="status">Carregando estoque...</p>;
+    if (erro) return <p role="alert">Não foi possível carregar os dados: {erro}</p>;
 
     return (
         <div className="pagina-app pagina-consulta">
@@ -63,10 +106,16 @@ const Dashboard = () => {
                 <div>
                     <h1 className={estilos.titulo}>Visão geral</h1>
                     <p className={estilos.subtitulo}>
-                        Seu estoque e as movimentações do dia.
+                        Seu estoque e as movimentações dos últimos 7 dias.
                     </p>
                 </div>
                 <p className={estilos.data}>
+                    {inicioSemana.toLocaleDateString("pt-BR", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                    })}
+                    {" a "}
                     {hoje.toLocaleDateString("pt-BR", {
                         day: "numeric",
                         month: "long",
@@ -74,224 +123,140 @@ const Dashboard = () => {
                     })}
                 </p>
             </div>
-            {carregando ? (
-                <p role="status">Carregando seu estoque...</p>
-            ) : erro ? (
-                <p role="alert">Não foi possível carregar os dados: {erro}</p>
-            ) : (
-                <>
-                    <NotificacaoAlerta />
-                    <div className={estilos.cardsTrio}>
+
+           
+            <div className={estilos.cardsTrio}>
+                <button
+                    className={estilos.resumoCard}
+                    onClick={() => navigate("/principal/listaProdutos")}
+                >
+                    <p className={estilos.resumoLabel}>Produtos cadastrados</p>
+                    <p className={estilos.resumoValor + " " + estilos.valorProdutos}>
+                        {produtos.length}
+                    </p>
+                    <p className={estilos.resumoSub}>{categoriasEmUso} categorias em uso</p>
+                </button>
+                <button
+                    className={estilos.resumoCard + " " + estilos.cardProduto}
+                    onClick={() => navigate(destinoDestaque)}
+                >
+                    <p className={estilos.resumoLabel}>Produto da semana</p>
+                    <p className={estilos.produtoDaSemana}>{nomeDestaque}</p>
+                    <p className={estilos.resumoSub}>
+                        {produtoDaSemana?.quantidade || 0} unidades na semana
+                    </p>
+                </button>
+                <button
+                    className={estilos.resumoCard + " " + estilos.cardSaidas}
+                    onClick={() => navigate("/principal/relatorios")}
+                >
+                    <p className={estilos.resumoLabel}>Saídas da semana</p>
+                    <p className={estilos.resumoValor + " " + estilos.valorSaidas}>
+                        {valorSaidas.toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                        })}
+                    </p>
+                    <p className={estilos.resumoSub}>{unidadesSaida} unidades movimentadas</p>
+                </button>
+            </div>
+            <div className={estilos.layout}>
+                <div className={"superficie " + estilos.tabelaWrap}>
+                    <div className={estilos.tabelaCabecalho}>
+                        <h2 className={estilos.tabelaTitulo}>Últimas movimentações da semana</h2>
                         <button
-                            className={estilos.resumoCard}
-                            onClick={() => navigate("/principal/listaProdutos")}
+                            className="botao-leve"
+                            onClick={() => navigate("/principal/historico")}
                         >
-                            <p className={estilos.resumoLabel}>
-                                Produtos cadastrados
-                            </p>
-                            <p className={estilos.resumoValor}>
-                                {produtos.length}
-                            </p>
-                            <p className={estilos.resumoSub}>
-                                {
-                                    new Set(
-                                        produtos.map(
-                                            (produto) => produto.categoria,
-                                        ),
-                                    ).size
-                                }{" "}
-                                categorias em uso
-                            </p>
-                        </button>
-                        <button
-                            className={estilos.resumoCard}
-                            onClick={() => navigate(produtoDestaque
-                                ? "/principal/detalheProduto/" + produtoDestaque.codigo
-                                : "/principal/historico")}
-                        >
-                            <p className={estilos.resumoLabel}>Produto do dia</p>
-                            <p className={estilos.produtoDoDia}>
-                                {produtoDestaque?.nome ?? produtoDoDia?.nome ?? "Sem saídas hoje"}
-                            </p>
-                            <p className={estilos.resumoSub}>
-                                {produtoDoDia
-                                    ? "Mais saídas hoje: " + produtoDoDia.quantidade + (produtoDoDia.quantidade === 1 ? " unidade" : " unidades")
-                                    : "O destaque aparece após a primeira saída."}
-                            </p>
-                        </button>
-                        <button
-                            className={estilos.resumoCard}
-                            onClick={() => navigate("/principal/relatorios")}
-                        >
-                            <p className={estilos.resumoLabel}>
-                                Saídas de hoje
-                            </p>
-                            <p className={estilos.resumoValor}>
-                                {valorSaidas.toLocaleString("pt-BR", {
-                                    style: "currency",
-                                    currency: "BRL",
-                                })}
-                            </p>
-                            <p className={estilos.resumoSub}>
-                                {saidasHoje.reduce(
-                                    (total, movimento) =>
-                                        total + movimento.quantidade,
-                                    0,
-                                )}{" "}
-                                unidades movimentadas
-                            </p>
+                            Ver histórico
                         </button>
                     </div>
-                    <div className={estilos.layout}>
-                        <div className={"superficie " + estilos.tabelaWrap}>
-                            <div className={estilos.tabelaCabecalho}>
-                                <h2 className={estilos.tabelaTitulo}>
-                                    Últimas movimentações
-                                </h2>
-                                <button
-                                    className="botao-leve"
-                                    onClick={() =>
-                                        navigate("/principal/historico")
-                                    }
-                                >
-                                    Ver histórico
-                                </button>
-                            </div>
-                            {movimentacoes.length === 0 ? (
-                                <p className="estado-vazio">
-                                    As próximas movimentações aparecerão aqui.
-                                </p>
-                            ) : (
-                                <table className="tabela-dados">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Tipo</th>
-                                            <th scope="col">Produto</th>
-                                            <th scope="col">Quantidade</th>
-                                            <th scope="col">Data</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {[...movimentacoes]
-                                            .sort(
-                                                (a, b) =>
-                                                    b.data.getTime() -
-                                                    a.data.getTime(),
-                                            )
-                                            .slice(0, 5)
-                                            .map((movimento) => {
-                                                const produto = produtos.find(
-                                                    (item) =>
-                                                        movimento.produtoId
-                                                            ? item.id ===
-                                                              movimento.produtoId
-                                                            : item.codigo ===
-                                                              movimento.codigoProduto,
-                                                );
-                                                return (
-                                                    <tr key={movimento.id}>
-                                                        <td>
-                                                            <span
-                                                                className={
-                                                                    movimento.entrasai ===
-                                                                    "saida"
-                                                                        ? estilos.Saida
-                                                                        : estilos.Entrada
-                                                                }
-                                                            >
-                                                                {movimento.entrasai ===
-                                                                "saida"
-                                                                    ? "Saída"
-                                                                    : "Entrada"}
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            {movimento.nomeProduto ??
-                                                                produto?.nome ??
-                                                                "Produto indisponível"}
-                                                        </td>
-                                                        <td
-                                                            className={
-                                                                estilos.tdBold
-                                                            }
-                                                        >
-                                                            {
-                                                                movimento.quantidade
-                                                            }{" "}
-                                                            un.
-                                                        </td>
-                                                        <td
-                                                            className={
-                                                                estilos.tdMutado
-                                                            }
-                                                        >
-                                                            {movimento.data.toLocaleDateString(
-                                                                "pt-BR",
-                                                            )}
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
-                                    </tbody>
-                                </table>
-                            )}
-                        </div>
-                        <div className={estilos.colunaLateral}>
+                    <table className="tabela-dados">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Produto</th>
+                                <th scope="col">Quantidade</th>
+                                <th scope="col">Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {ultimasMovimentacoesSemana.map((movimento) => (
+                                <tr key={movimento.id}>
+                                    <td>
+                                        <span
+                                            className={
+                                                movimento.entrasai === "saida"
+                                                    ? estilos.Saida
+                                                    : estilos.Entrada
+                                            }
+                                        >
+                                            <span
+                                                className={estilos.setaMovimento}
+                                                aria-hidden="true"
+                                            >
+                                                {movimento.entrasai === "saida" ? "↓" : "↑"}
+                                            </span>
+                                            {movimento.entrasai === "saida" ? "Saída" : "Entrada"}
+                                        </span>
+                                    </td>
+                                    <td>{movimento.nomeProduto || movimento.codigoProduto}</td>
+                                    <td className={estilos.tdBold}>{movimento.quantidade} un.</td>
+                                    <td className={estilos.tdMutado}>
+                                        {movimento.data.toLocaleDateString("pt-BR")}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className={estilos.colunaLateral}>
+                    <button
+                        className={estilos.cardAlerta}
+                        onClick={() => navigate("/principal/listaProdutos")}
+                    >
+                        <p className={estilos.labelAlerta}>Atenção ao estoque</p>
+                        <p className={estilos.valorAlerta}>{zerados + baixos}</p>
+                        <p className={estilos.subAlerta}>
+                            {zerados} esgotados · {baixos} com estoque baixo
+                        </p>
+                    </button>
+                    <div className={estilos.painel}>
+                        <h2 className={estilos.tabelaTitulo}>Ações rápidas</h2>
+                        <div className={estilos.colunaAcoes}>
                             <button
-                                className={estilos.cardAlerta}
-                                onClick={() =>
-                                    navigate("/principal/listaProdutos")
-                                }
+                                className={estilos.btnAcaoRapida}
+                                onClick={() => navigate("/principal/cadastroProd")}
                             >
-                                <p className={estilos.labelAlerta}>
-                                    Atenção ao estoque
-                                </p>
-                                <p className={estilos.valorAlerta}>
-                                    {zerados + baixos}
-                                </p>
-                                <p className={estilos.subAlerta}>
-                                    {zerados} esgotados · {baixos} com estoque
-                                    baixo
-                                </p>
+                                Cadastrar produto
+                                <span className={estilos.setaAcao} aria-hidden="true">
+                                    ↗
+                                </span>
                             </button>
-                            <div className={estilos.painel}>
-                                <h2 className={estilos.tabelaTitulo}>
-                                    Ações rápidas
-                                </h2>
-                                <div className={estilos.colunaAcoes}>
-                                    <button
-                                        className={estilos.btnAcaoRapida}
-                                        onClick={() =>
-                                            navigate("/principal/cadastroProd")
-                                        }
-                                    >
-                                        Cadastrar produto
-                                    </button>
-                                    <button
-                                        className={estilos.btnAcaoRapida}
-                                        onClick={() =>
-                                            navigate(
-                                                "/principal/registrarMovimento",
-                                            )
-                                        }
-                                    >
-                                        Registrar movimentação
-                                    </button>
-                                    <button
-                                        className={estilos.btnAcaoRapida}
-                                        onClick={() =>
-                                            navigate("/principal/relatorios")
-                                        }
-                                    >
-                                        Consultar relatórios
-                                    </button>
-                                </div>
-                            </div>
+                            <button
+                                className={estilos.btnAcaoRapida}
+                                onClick={() => navigate("/principal/registrarMovimento")}
+                            >
+                                Registrar movimentação
+                                <span className={estilos.setaAcao} aria-hidden="true">
+                                    ↗
+                                </span>
+                            </button>
+                            <button
+                                className={estilos.btnAcaoRapida}
+                                onClick={() => navigate("/principal/relatorios")}
+                            >
+                                Consultar relatórios
+                                <span className={estilos.setaAcao} aria-hidden="true">
+                                    ↗
+                                </span>
+                            </button>
                         </div>
                     </div>
-                </>
-            )}
+                </div>
+            </div>
         </div>
     );
 };
+
 export default Dashboard;

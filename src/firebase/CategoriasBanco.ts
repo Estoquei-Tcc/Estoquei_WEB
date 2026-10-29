@@ -12,7 +12,7 @@ export function observarCategorias(usuarioId: string, aoAtualizar: (categorias: 
 
 export async function cadastrarCategoria(categoria: string): Promise<string> {
     const nome = categoria.trim();
-    if (!nome || nome.length > 80) throw new Error("Informe uma categoria de até 80 caracteres.");
+    if (!nome) throw new Error("Informe o nome da categoria.");
     await autenticacao.authStateReady();
     const usuarioId = autenticacao.currentUser?.uid;
     if (!usuarioId) throw new Error("É necessário estar autenticado para cadastrar categorias.");

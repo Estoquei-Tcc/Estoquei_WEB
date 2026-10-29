@@ -6,12 +6,14 @@
     gap: 24px;
     margin-bottom: 30px;
 }
+
 .topoEsquerda {
     display: flex;
     align-items: center;
     gap: 14px;
     min-width: 0;
 }
+
 .btnVoltar {
     width: 44px;
     height: 44px;
@@ -19,23 +21,31 @@
     font-size: 1.6rem;
     flex-shrink: 0;
 }
+
 .topoInfo {
     min-width: 0;
 }
+
 .topoInfo h1 {
-    font: 700 clamp(1.85rem, 2.8vw, 2.4rem)/1.15 var(--fonte-logo);
+    font-family: "Outfit", sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.15;
     overflow-wrap: anywhere;
 }
+
 .topoInfo p {
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     font-size: 0.75rem;
     margin-top: 6px;
 }
+
 .topoAcoes {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
+
 .btnSecundario,
 .btnPerigo {
     display: inline-flex;
@@ -49,39 +59,36 @@
     background: white;
     font-size: 0.83rem;
     font-weight: 600;
-    box-shadow: 0 1px 3px rgb(65 43 27 / 7%);
-    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+    box-shadow: 0 1px 3px #412b1b12;
 }
+
 .btnSecundario {
-    color: var(--cor-texto);
+    color: #382c24;
 }
-.btnSecundario:hover:not(:disabled) {
+
+.btnSecundario:hover {
     background: #fff7ef;
     border-color: #d8ae90;
 }
+
 .btnPerigo {
-    color: var(--cor-erro);
+    color: #a13832;
     border-color: #e6c8c4;
     background: #fffafa;
 }
-.btnPerigo:hover:not(:disabled) {
-    background: var(--cor-erro-fundo);
+
+.btnPerigo:hover {
+    background: #fbefec;
     border-color: #cf9790;
-}
-.btnSecundario:active:not(:disabled),
-.btnPerigo:active:not(:disabled) {
-    box-shadow: inset 0 1px 3px rgb(65 43 27 / 12%);
-}
-.topoAcoes > button {
-    min-height: 44px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.5fr);
+    grid-template-columns: 0.85fr 1.5fr;
     gap: 24px;
     align-items: start;
 }
+
 .colunaEsquerda,
 .colunaDireita {
     display: flex;
@@ -89,47 +96,62 @@
     gap: 24px;
     min-width: 0;
 }
+
 .card,
 .tabelaWrap {
     min-width: 0;
 }
+
 .cardTitulo {
     font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--cor-texto-secundario);
     padding: 18px 20px;
-    border-bottom: 1px solid var(--cor-borda);
+    border-bottom: 1px solid #ecdfd2;
+    background: #fffaf6;
+    color: #665044;
+    font-weight: 600;
 }
+
 .cardCorpo {
     padding: 20px;
 }
+
 .produtoIdentidade {
     padding: 24px 20px 16px;
+    border-top: 3px solid #d05b0d;
 }
+
 .produtoNome {
-    font: 600 1.35rem var(--fonte-logo);
+    font-family: "Outfit", sans-serif;
+    font-size: 1.35rem;
+    line-height: normal;
     margin-bottom: 6px;
     overflow-wrap: anywhere;
+    font-weight: 600;
 }
+
 .produtoCodigo {
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     font-size: 0.75rem;
 }
+
 .campoLinha {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 16px;
     padding: 12px 0;
-    border-bottom: 1px solid var(--cor-borda);
+    border-bottom: 1px solid #ecdfd2;
 }
-.campoLinha:last-child {
+
+.linhaFornecedor {
     border-bottom: 0;
 }
+
 .campoLabel {
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     font-size: 0.75rem;
 }
+
 .campoValor,
 .campoValorMutado {
     font-size: 0.8rem;
@@ -137,25 +159,33 @@
     overflow-wrap: anywhere;
     min-width: 0;
 }
+
 .precosGrid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
+
 .precoLabel {
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     font-size: 0.75rem;
     margin-bottom: 7px;
 }
+
 .precoValor {
-    font: 600 1.45rem var(--fonte-logo);
+    font-family: "Outfit", sans-serif;
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: normal;
     overflow-wrap: anywhere;
 }
+
 .precoSub,
 .estoqueSub {
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     font-size: 0.7rem;
 }
+
 .margemDestaque {
     display: flex;
     align-items: baseline;
@@ -163,159 +193,183 @@
     gap: 12px;
     padding-top: 16px;
     margin-top: 20px;
-    border-top: 1px solid var(--cor-borda);
+    border-top: 1px solid #ecdfd2;
 }
+
 .margemLabel {
     font-size: 0.75rem;
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
 }
+
 .margemValor {
     font-size: 0.9rem;
     font-weight: 600;
 }
+
 .estoqueGrid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 16px;
 }
+
 .estoqueItem {
     padding: 8px 12px;
-    border-left: 1px solid var(--cor-borda);
+    border-left: 1px solid #ecdfd2;
 }
-.estoqueItem:first-child {
+
+.estoqueAtual {
     padding-left: 0;
     border: 0;
 }
+
 .estoqueLabel {
     font-size: 0.7rem;
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     margin-bottom: 8px;
 }
+
 .estoqueValor {
-    font: 600 2rem var(--fonte-logo);
+    font-family: "Outfit", sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: normal;
 }
-.estoqueValorBaixo {
-    color: var(--cor-primaria);
-}
+
 .statusWrap {
     margin-top: 28px;
 }
+
 .statusEstoque {
     display: flex;
     justify-content: center;
 }
+
 .statusBadge {
     display: inline-flex;
     padding: 5px 12px;
     border-radius: 4px;
     font-size: 0.8rem;
 }
+
 .statusBaixo {
-    color: var(--cor-alerta);
-    background: var(--cor-alerta-fundo);
+    color: #8d5c15;
+    background: #fcf3e2;
 }
+
 .statusNormal {
-    color: var(--cor-sucesso);
-    background: var(--cor-sucesso-fundo);
+    color: #28664c;
+    background: #edf5ef;
 }
+
 .statusZerado {
-    color: var(--cor-erro);
-    background: var(--cor-erro-fundo);
+    color: #a13832;
+    background: #fbefec;
 }
+
 .tabelaWrap {
     overflow-x: auto;
 }
+
 .tabelaWrap table {
     width: 100%;
     border-collapse: collapse;
 }
+
 .tabelaWrap th {
     padding: 12px 20px;
-    background: var(--cor-superficie-suave);
-    color: var(--cor-texto-secundario);
+    background: #fff3e6;
+    color: #796a5c;
     font-size: 0.73rem;
     font-weight: 600;
     text-align: left;
-    border-bottom: 1px solid var(--cor-borda);
+    border-bottom: 1px solid #ecdfd2;
 }
+
 .tabelaWrap td {
     padding: 14px 20px;
     font-size: 0.8rem;
-    border-bottom: 1px solid var(--cor-borda);
+    border-bottom: 1px solid #ecdfd2;
 }
-.tabelaWrap tr:last-child td {
-    border-bottom: 0;
-}
+
 .tabelaCabecalho {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 12px;
     padding: 18px 20px;
-    border-bottom: 1px solid var(--cor-borda);
+    border-bottom: 1px solid #ecdfd2;
 }
+
 .tabelaTitulo {
     font-size: 0.85rem;
     font-weight: 600;
 }
+
 .tdMutado {
-    color: var(--cor-texto-secundario);
+    color: #796a5c;
     white-space: nowrap;
 }
+
 .tipoEntrada,
 .qtdEntrada {
-    color: var(--cor-sucesso);
+    color: #28664c;
     font-size: 0.75rem;
 }
+
 .tipoSaida,
 .qtdSaida {
-    color: var(--cor-primaria-hover);
+    color: #aa4305;
     font-size: 0.75rem;
 }
+
 @media (max-width: 750px) {
     .grid {
         grid-template-columns: 1fr;
     }
+
     .topoAcoes {
         width: 100%;
     }
+
     .topoAcoes button {
         flex: 1 1 auto;
     }
+
     .estoqueItem {
         padding-right: 0;
     }
+
     .tabelaCabecalho {
         flex-wrap: wrap;
     }
+
+    .topoInfo h1 {
+        font-size: 1.85rem;
+    }
 }
 
-.cardTitulo {
-    background: #fffaf6;
-    color: #665044;
-    font-weight: 600;
-}
-.precosGrid > div:last-child .precoValor {
-    color: var(--cor-sucesso);
+.precoVenda {
+    color: #28664c;
 }
 
 .card {
     background: white;
-    border: 1px solid var(--cor-borda);
+    border: 1px solid #ecdfd2;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 3px 10px rgb(65 43 27 / 6%);
-}
-.produtoIdentidade {
-    border-top: 3px solid var(--cor-primaria);
-}
-.produtoNome {
-    font-weight: 600;
-}
-.estoqueItem:first-child .estoqueValor {
-    color: var(--cor-primaria-hover);
+    box-shadow: 0 3px 10px #412b1b0f;
 }
 
-.campoLabel, .campoValor, .precoLabel, .estoqueLabel, .statusBadge, .tipoEntrada, .tipoSaida {
+.valorEstoqueAtual {
+    color: #aa4305;
+}
+
+.campoLabel,
+.campoValor,
+.precoLabel,
+.estoqueLabel,
+.statusBadge,
+.tipoEntrada,
+.tipoSaida {
     font-weight: 500;
 }
