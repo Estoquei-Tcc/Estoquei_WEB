@@ -6,8 +6,9 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
+        "build:github": "vite build --base=/TCC_Estoquei/ && node --input-type=module -e \"import { copyFileSync } from 'node:fs'; copyFileSync('dist/index.html', 'dist/404.html')\"",
         "preview": "vite preview",
-        "predeploy": "npm run build",
+        "predeploy": "npm run build:github",
         "deploy": "gh-pages -d dist"
     },
     "dependencies": {

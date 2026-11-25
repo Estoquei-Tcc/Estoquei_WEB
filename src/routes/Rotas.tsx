@@ -16,7 +16,7 @@ import Relatorios from "../pages/funcionalPages/Relatorios";
 
 const Rotas = () => {
     return (
-        <BrowserRouter basename="/TCC_Estoquei">
+        <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "")}>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
