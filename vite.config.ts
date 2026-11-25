@@ -3,5 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
     plugins: [react()],
-    base: "/TCC_Estoquei/",
+    envPrefix: "VITE_PUBLIC_FIREBASE_",
 });

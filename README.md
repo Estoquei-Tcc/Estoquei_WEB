@@ -50,6 +50,14 @@ O **Estoquei! Web** permite o gerenciamento dos produtos e das informações rel
 - TypeScript
 - React
 
+### Configuração do Firebase
+
+O site usa a configuração do aplicativo Web do Firebase para acessar a autenticação e o Firestore.
+Configure `VITE_PUBLIC_FIREBASE_API_KEY`, `VITE_PUBLIC_FIREBASE_PROJECT_ID` e `VITE_PUBLIC_FIREBASE_APP_ID` com os dados públicos do mesmo aplicativo Web.
+O Vite inclui esses valores no JavaScript do navegador. Não use valores protegidos, chaves de servidor ou credenciais administrativas nesse prefixo.
+Na Netlify, não mantenha os mesmos valores públicos cadastrados também como segredos: a verificação de segredos bloqueará o deploy se eles aparecerem no JavaScript.
+Para rodar localmente, use um arquivo `.env.local`; nos ambientes publicados, forneça essa configuração antes da compilação.
+
 ---
 
 # Projeto Mobile
